@@ -1,0 +1,34 @@
+{
+  "name": "PlatformConfig",
+  "type": "object",
+  "properties": {
+    "platform_name": {
+      "type": "string",
+      "default": "RotaMed",
+      "description": "Nome da plataforma"
+    },
+    "platform_tagline": {
+      "type": "string",
+      "default": "Sua melhor rota para a medicina!",
+      "description": "Slogan da plataforma"
+    },
+    "dashboard_title": {
+      "type": "string",
+      "default": "Descubra novos conhecimentos",
+      "description": "Título principal do dashboard"
+    },
+    "dashboard_subtitle": {
+      "type": "string",
+      "default": "Explore nossa coleção de cursos - todos liberados!",
+      "description": "Subtítulo do dashboard"
+    },
+    "welcome_message": {
+      "type": "string",
+      "default": "Bem-vindo à nossa plataforma de ensino!",
+      "description": "Mensagem de boas-vindas"
+    }
+  },
+  "required": [
+    "platform_name"
+  ]
+}

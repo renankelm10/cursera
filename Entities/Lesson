@@ -1,0 +1,44 @@
+{
+  "name": "Lesson",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Título da aula"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descrição da aula"
+    },
+    "course_id": {
+      "type": "string",
+      "description": "ID do curso ao qual pertence"
+    },
+    "order": {
+      "type": "number",
+      "description": "Ordem da aula no curso"
+    },
+    "duration_minutes": {
+      "type": "number",
+      "description": "Duração da aula em minutos"
+    },
+    "video_url": {
+      "type": "string",
+      "description": "URL do vídeo da aula"
+    },
+    "content": {
+      "type": "string",
+      "description": "Conteúdo adicional da aula"
+    },
+    "is_free": {
+      "type": "boolean",
+      "default": false,
+      "description": "Se a aula é gratuita"
+    }
+  },
+  "required": [
+    "title",
+    "course_id",
+    "order"
+  ]
+}

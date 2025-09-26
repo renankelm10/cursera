@@ -1,0 +1,72 @@
+{
+  "name": "Course",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Título do curso"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descrição detalhada do curso"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "programacao",
+        "design",
+        "marketing",
+        "negocios",
+        "dados",
+        "idiomas"
+      ],
+      "description": "Categoria do curso"
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "iniciante",
+        "intermediario",
+        "avancado"
+      ],
+      "description": "Nível de dificuldade"
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "description": "URL da imagem de capa do curso"
+    },
+    "duration_hours": {
+      "type": "number",
+      "description": "Duração total em horas"
+    },
+    "instructor": {
+      "type": "string",
+      "description": "Nome do instrutor"
+    },
+    "is_preview": {
+      "type": "boolean",
+      "default": false,
+      "description": "Se este curso é uma prévia gratuita"
+    },
+    "purchase_url": {
+      "type": "string",
+      "description": "URL para a página de compra do curso"
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "Avaliação do curso (0-5)"
+    },
+    "students_count": {
+      "type": "number",
+      "description": "Número de alunos matriculados"
+    }
+  },
+  "required": [
+    "title",
+    "description",
+    "category",
+    "level"
+  ]
+}

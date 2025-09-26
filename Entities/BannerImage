@@ -1,0 +1,32 @@
+{
+  "name": "BannerImage",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Título da imagem do banner"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "URL da imagem"
+    },
+    "link_url": {
+      "type": "string",
+      "description": "URL de destino quando clicar na imagem (opcional)"
+    },
+    "order": {
+      "type": "number",
+      "description": "Ordem de exibição"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Se a imagem está ativa"
+    }
+  },
+  "required": [
+    "title",
+    "image_url",
+    "order"
+  ]
+}
