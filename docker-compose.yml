@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # Serviço do backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cursera-backend
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3000}
+    volumes:
+      - ./backend/logs:/app/logs
+    networks:
+      - cursera-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Serviço do frontend (descomentado quando o frontend estiver pronto)
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: cursera-frontend
+  #   restart: always
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - REACT_APP_API_URL=http://backend:3001/api
+  #   depends_on:
+  #     - backend
+  #   networks:
+  #     - cursera-network
+
+  # Serviço de proxy reverso (opcional, para produção)
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: cursera-nginx
+  #   restart: always
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+  #     - ./nginx/conf.d:/etc/nginx/conf.d
+  #     - ./nginx/ssl:/etc/nginx/ssl
+  #     - ./nginx/www:/var/www/html
+  #   depends_on:
+  #     - backend
+  #     - frontend
+  #   networks:
+  #     - cursera-network
+
+networks:
+  cursera-network:
+    driver: bridge
