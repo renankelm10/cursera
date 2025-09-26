@@ -34,10 +34,10 @@ cursera/
     SUPABASE_URL=sua_url_do_supabase
     SUPABASE_ANON_KEY=sua_chave_anon_aqui
     JWT_SECRET=seu_jwt_secret_muito_seguro
-    FRONTEND_URL=http://localhost:80
+    FRONTEND_URL=http://localhost:7436
     ```
 
-    **Importante:** Substitua os valores pelos seus dados reais do Supabase e uma chave JWT secreta forte. Para `FRONTEND_URL`, use o domínio onde seu frontend será acessível (ex: `http://localhost:80` para acesso local ou `https://seusite.com` em produção).
+    **Importante:** Substitua os valores pelos seus dados reais do Supabase e uma chave JWT secreta forte. Para `FRONTEND_URL`, use o domínio onde seu frontend será acessível (ex: `http://localhost:7436` para acesso local ou `https://seusite.com` em produção).
 
 2.  **Inicializar Banco de Dados:** Antes de subir os containers, execute o script SQL em `backend/database/init.sql` no seu painel do Supabase para criar as tabelas necessárias.
 
@@ -52,8 +52,8 @@ docker compose up -d --build
 *   `docker compose up -d`: Inicia os serviços definidos no `docker-compose.yml` em modo detached (segundo plano).
 *   `--build`: Reconstrói as imagens dos serviços, garantindo que as últimas alterações no código sejam incluídas.
 
-*   O **frontend** estará acessível na porta `80` (ou a porta que você mapear no `docker-compose.yml`).
-*   O **backend** estará acessível internamente pelo frontend através do nome do serviço `backend` e externamente na porta `3001`.
+*   O **frontend** estará acessível na porta `7436`.
+*   O **backend** estará acessível internamente pelo frontend através do nome do serviço `backend` e externamente na porta `2378`.
 
 ### Verificando o Status
 

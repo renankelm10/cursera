@@ -9,7 +9,7 @@ services:
     container_name: cursera-backend
     restart: always
     ports:
-      - "3001:3001"
+      - "2378:3001"
     environment:
       - NODE_ENV=production
       - PORT=3001
@@ -36,7 +36,7 @@ services:
     container_name: cursera-frontend
     restart: always
     ports:
-      - "80:80"
+      - "7436:80"
     environment:
       - REACT_APP_API_URL=/api
     depends_on:
