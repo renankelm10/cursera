@@ -16,7 +16,7 @@ services:
       - SUPABASE_URL=${SUPABASE_URL}
       - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
       - JWT_SECRET=${JWT_SECRET}
-      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3000}
+      - FRONTEND_URL=${FRONTEND_URL:-http://frontend}
     volumes:
       - ./backend/logs:/app/logs
     networks:
@@ -28,38 +28,58 @@ services:
       retries: 3
       start_period: 10s
 
-  # Serviço do frontend (descomentado quando o frontend estiver pronto)
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   container_name: cursera-frontend
-  #   restart: always
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     - REACT_APP_API_URL=http://backend:3001/api
-  #   depends_on:
-  #     - backend
-  #   networks:
-  #     - cursera-network
+  # Serviço do frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cursera-frontend
+    restart: always
+    ports:
+      - "80:80"
+    environment:
+      - REACT_APP_API_URL=/api
+    depends_on:
+      - backend
+    networks:
+      - cursera-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
-  # Serviço de proxy reverso (opcional, para produção)
-  # nginx:
-  #   image: nginx:alpine
-  #   container_name: cursera-nginx
+  # Serviço de proxy reverso (opcional, para produção com HTTPS)
+  # nginx-proxy:
+  #   image: nginxproxy/nginx-proxy
+  #   container_name: cursera-nginx-proxy
   #   restart: always
   #   ports:
   #     - "80:80"
   #     - "443:443"
   #   volumes:
-  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-  #     - ./nginx/conf.d:/etc/nginx/conf.d
-  #     - ./nginx/ssl:/etc/nginx/ssl
-  #     - ./nginx/www:/var/www/html
+  #     - /var/run/docker.sock:/tmp/docker.sock:ro
+  #     - ./nginx-proxy/certs:/etc/nginx/certs
+  #     - ./nginx-proxy/vhost.d:/etc/nginx/vhost.d
+  #     - ./nginx-proxy/html:/usr/share/nginx/html
+  #   networks:
+  #     - cursera-network
+
+  # Serviço para Let's Encrypt (opcional, para certificados SSL automáticos)
+  # letsencrypt:
+  #   image: nginxproxy/acme-companion
+  #   container_name: cursera-letsencrypt
+  #   restart: always
+  #   environment:
+  #     - DEFAULT_EMAIL=${LETSENCRYPT_EMAIL:-admin@example.com}
+  #   volumes_from:
+  #     - nginx-proxy
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - ./nginx-proxy/acme:/etc/acme.sh
   #   depends_on:
-  #     - backend
-  #     - frontend
+  #     - nginx-proxy
   #   networks:
   #     - cursera-network
 
