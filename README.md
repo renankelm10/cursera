@@ -1,13 +1,30 @@
-# curser-
+# cursera
 
+Este repositório contém o frontend e o backend da plataforma de cursos Cursera.
 
-## 🐳 Dockerização do Backend
+## 🐳 Dockerização Completa (Frontend e Backend)
 
-Para facilitar a implantação do backend em ambientes de produção, como uma VPS, foram adicionados arquivos de Dockerização.
+Para facilitar a implantação completa da aplicação (frontend e backend) em ambientes de produção, como uma VPS, foram adicionados arquivos de Dockerização.
 
 ### Pré-requisitos
 
 Certifique-se de ter o Docker e o Docker Compose instalados em seu servidor.
+
+### Estrutura do Projeto
+
+```
+cursera/
+├── backend/                # Código fonte do backend Node.js
+│   ├── Dockerfile          # Dockerfile para o backend
+│   ├── ...
+├── frontend/               # Código fonte do frontend React
+│   ├── Dockerfile          # Dockerfile para o frontend
+│   ├── nginx/              # Configuração do Nginx para o frontend
+│   ├── ...
+├── .env.example            # Exemplo de variáveis de ambiente
+├── docker-compose.yml      # Orquestração Docker para frontend e backend
+└── README.md
+```
 
 ### Configuração
 
@@ -17,12 +34,12 @@ Certifique-se de ter o Docker e o Docker Compose instalados em seu servidor.
     SUPABASE_URL=sua_url_do_supabase
     SUPABASE_ANON_KEY=sua_chave_anon_aqui
     JWT_SECRET=seu_jwt_secret_muito_seguro
-    FRONTEND_URL=http://localhost:3000
+    FRONTEND_URL=http://localhost:80
     ```
 
-    **Importante:** Substitua os valores pelos seus dados reais do Supabase e uma chave JWT secreta forte.
+    **Importante:** Substitua os valores pelos seus dados reais do Supabase e uma chave JWT secreta forte. Para `FRONTEND_URL`, use o domínio onde seu frontend será acessível (ex: `http://localhost:80` para acesso local ou `https://seusite.com` em produção).
 
-2.  **Inicializar Banco de Dados:** Antes de subir o container, execute o script SQL em `backend/database/init.sql` no seu painel do Supabase para criar as tabelas necessárias.
+2.  **Inicializar Banco de Dados:** Antes de subir os containers, execute o script SQL em `backend/database/init.sql` no seu painel do Supabase para criar as tabelas necessárias.
 
 ### Como Subir a Aplicação
 
@@ -35,7 +52,8 @@ docker compose up -d --build
 *   `docker compose up -d`: Inicia os serviços definidos no `docker-compose.yml` em modo detached (segundo plano).
 *   `--build`: Reconstrói as imagens dos serviços, garantindo que as últimas alterações no código sejam incluídas.
 
-O backend estará acessível na porta `3001` do seu servidor.
+*   O **frontend** estará acessível na porta `80` (ou a porta que você mapear no `docker-compose.yml`).
+*   O **backend** estará acessível internamente pelo frontend através do nome do serviço `backend` e externamente na porta `3001`.
 
 ### Verificando o Status
 
@@ -45,7 +63,7 @@ Você pode verificar o status dos containers com:
 docker compose ps
 ```
 
-E os logs do backend com:
+E os logs de um serviço específico (ex: backend) com:
 
 ```bash
 docker compose logs backend
