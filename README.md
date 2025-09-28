@@ -1,79 +1,23 @@
 # cursera
 
-Este repositório contém o frontend e o backend da plataforma de cursos Cursera.
+plataforma completa para cursos online, com áreas separadas para alunos e administradores. O projeto é dividido em duas partes principais:
 
-## 🐳 Dockerização Completa (Frontend e Backend)
+Frontend: A parte visual do site, onde os usuários interagem. Feita em React, ela inclui:
 
-Para facilitar a implantação completa da aplicação (frontend e backend) em ambientes de produção, como uma VPS, foram adicionados arquivos de Dockerização.
+Dashboard principal: Para listar e filtrar os cursos disponíveis.
 
-### Pré-requisitos
+Página de Cursos: Para assistir às aulas em vídeo e ver o conteúdo.
 
-Certifique-se de ter o Docker e o Docker Compose instalados em seu servidor.
+Perfil de Usuário: Onde cada aluno pode ver seu progresso e editar suas informações.
 
-### Estrutura do Projeto
+Painel Administrativo: Uma área restrita para gerenciar todos os aspectos da plataforma, como cursos, aulas, usuários e banners.
 
-```
-cursera/
-├── backend/                # Código fonte do backend Node.js
-│   ├── Dockerfile          # Dockerfile para o backend
-│   ├── ...
-├── frontend/               # Código fonte do frontend React
-│   ├── Dockerfile          # Dockerfile para o frontend
-│   ├── nginx/              # Configuração do Nginx para o frontend
-│   ├── ...
-├── .env.example            # Exemplo de variáveis de ambiente
-├── docker-compose.yml      # Orquestração Docker para frontend e backend
-└── README.md
-```
+Backend: O "cérebro" da aplicação, que lida com os dados e a lógica. Feito em Node.js com Express, ele é responsável por:
 
-### Configuração
+Gerenciar o banco de dados usando o Supabase.
 
-1.  **Variáveis de Ambiente:** Crie um arquivo `.env` na raiz do projeto (o mesmo nível do `docker-compose.yml`) com as variáveis de ambiente necessárias. Você pode usar o `.env.example` como base:
+Controlar o registro e login de usuários, com diferenciação entre administradores e usuários comuns.
 
-    ```env
-    SUPABASE_URL=sua_url_do_supabase
-    SUPABASE_ANON_KEY=sua_chave_anon_aqui
-    JWT_SECRET=seu_jwt_secret_muito_seguro
-    FRONTEND_URL=http://localhost:7436
-    ```
+Fornecer uma API para que o frontend possa criar, ler, atualizar e deletar informações sobre cursos, aulas e outros dados.
 
-    **Importante:** Substitua os valores pelos seus dados reais do Supabase e uma chave JWT secreta forte. Para `FRONTEND_URL`, use o domínio onde seu frontend será acessível (ex: `http://localhost:7436` para acesso local ou `https://seusite.com` em produção).
-
-2.  **Inicializar Banco de Dados:** Antes de subir os containers, execute o script SQL em `backend/database/init.sql` no seu painel do Supabase para criar as tabelas necessárias.
-
-### Como Subir a Aplicação
-
-Navegue até a raiz do projeto (onde o `docker-compose.yml` está localizado) e execute o seguinte comando:
-
-```bash
-docker compose up -d --build
-```
-
-*   `docker compose up -d`: Inicia os serviços definidos no `docker-compose.yml` em modo detached (segundo plano).
-*   `--build`: Reconstrói as imagens dos serviços, garantindo que as últimas alterações no código sejam incluídas.
-
-*   O **frontend** estará acessível na porta `7436`.
-*   O **backend** estará acessível internamente pelo frontend através do nome do serviço `backend` e externamente na porta `2378`.
-
-### Verificando o Status
-
-Você pode verificar o status dos containers com:
-
-```bash
-docker compose ps
-```
-
-E os logs de um serviço específico (ex: backend) com:
-
-```bash
-docker compose logs backend
-```
-
-### Parando a Aplicação
-
-Para parar e remover os containers, redes e volumes criados pelo Docker Compose:
-
-```bash
-docker compose down
-```
-
+Todo o sistema é preparado para ser facilmente implantado usando Docker, o que significa que tanto o frontend quanto o backend podem ser "empacotados" e executados em qualquer servidor de forma simples e consistente.
